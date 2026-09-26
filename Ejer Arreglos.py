@@ -8,13 +8,11 @@ DEPARTAMENTOS = ["Ropa", "Deportes", "Jugueteria"]
 
 
 def crear_matriz():
-    """Crea la matriz de 12 meses x 3 departamentos, iniciada en 0."""
     matriz = [[0 for _ in range(NUM_DEPARTAMENTOS)] for _ in range(NUM_MESES)]
     return matriz
 
 
 def insertar_venta(matriz, mes, departamento, cantidad):
-    """Inserta (o actualiza) una venta en un mes y departamento especifico."""
     if 0 <= mes < NUM_MESES and 0 <= departamento < NUM_DEPARTAMENTOS:
         matriz[mes][departamento] = cantidad
         print(f"Venta registrada: {MESES[mes]} - {DEPARTAMENTOS[departamento]}: {cantidad}")
@@ -24,7 +22,6 @@ def insertar_venta(matriz, mes, departamento, cantidad):
 
 
 def buscar_venta(matriz, valor_buscar):
-    """Busca todas las coincidencias de un valor de venta en la matriz."""
     coincidencias = []
     for m in range(NUM_MESES):
         for d in range(NUM_DEPARTAMENTOS):
@@ -38,25 +35,21 @@ def buscar_venta(matriz, valor_buscar):
 
 
 def eliminar_venta(matriz, mes, departamento):
-    """Elimina una venta en particular (la regresa a 0)."""
     return insertar_venta(matriz, mes, departamento, 0)
 
 
 def mostrar_matriz(matriz):
-    """Imprime la matriz completa de forma legible."""
     for m in range(NUM_MESES):
         print(f"{MESES[m]}: {matriz[m]}")
 
 
 def pedir_mes():
-    """Muestra la lista de meses y pide al usuario que elija uno."""
     for i, nombre in enumerate(MESES):
         print(f"{i}: {nombre}")
     return int(input("Elige el numero de mes: "))
 
 
 def pedir_departamento():
-    """Muestra la lista de departamentos y pide al usuario que elija uno."""
     for i, nombre in enumerate(DEPARTAMENTOS):
         print(f"{i}: {nombre}")
     return int(input("Elige el numero de departamento: "))
