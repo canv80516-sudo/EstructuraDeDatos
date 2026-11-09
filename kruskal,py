@@ -1,0 +1,50 @@
+class UnionFind:
+    def __init__(self, n):
+        self.padre = {i: i for i in n}
+        self.rango = {i: 0 for i in n}
+
+    def buscar(self, i):
+        # Encuentra la raiz del conjunto con compresion de caminos
+        if self.padre[i] != i:
+            self.padre[i] = self.buscar(self.padre[i])
+        return self.padre[i]
+
+    def unir(self, i, j):
+        # Union por rango
+        raiz_i = self.buscar(i)
+        raiz_j = self.buscar(j)
+        
+        if raiz_i != raiz_j:
+            if self.rango[raiz_i] < self.rango[raiz_j]:
+                self.padre[raiz_i] = raiz_j
+            elif self.rango[raiz_i] > self.rango[raiz_j]:
+                self.padre[raiz_j] = raiz_i
+            else:
+                self.padre[raiz_j] = raiz_i
+                self.rango[raiz_i] += 1
+            return True
+        return False
+
+def kruskal(vertices, aristas):
+    """
+    Calcula el Arbol de Expansio Minimino (MST) usando el algoritmo de Kruskal.
+    
+    :param vertices: Lista de nombres de los vertices.
+    :param aristas: Lista de tuplas con formato (peso, u, v).
+    :return: Lista de aristas que componen el MST y su costo total.
+    """
+    # 1. Ordenar aristas por peso de menor a mayor
+    aristas_ordenadas = sorted(aristas, key=lambda item: item[0])
+    
+    uf = UnionFind(vertices)
+    mst = []
+    costo_total = 0
+    
+    # 2. Iterar sobre las aristas ordenadas
+    for peso, u, v in aristas_ordenadas:
+        # 3. Si al unir no se forma un ciclo (estan en componentes distintas)
+        if uf.unir(u, v):
+            mst.append((u, v, peso))
+            costo_total += peso
+            
+    return mst, costo_total
